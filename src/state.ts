@@ -1,12 +1,19 @@
 import { createStore, Store } from "redux";
 let store: Store;
 export const setGlobalStore = (s: Store) => (store = s);
+
 export const actions = {
   increment: () => {
     store.dispatch({ type: "increment" });
   },
   decrement: () => {
     store.dispatch({ type: "decrement" });
+  },
+
+  tripleIncrement: () => {
+    setTimeout(actions.increment, 2000);
+    setTimeout(actions.increment, 4000);
+    setTimeout(actions.increment, 6000);
   },
 };
 

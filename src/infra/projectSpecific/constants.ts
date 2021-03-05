@@ -28,6 +28,17 @@ export const colors = {
     itemBackgroundHover: darkMenuColor,
     scrollbar: "darkGray",
   },
+
+  folderColor: "#724BB7",
+  playlistColor: "#31B237",
+  channelColor: "#2186EB",
+  videoColor: "#DA4A91",
+
+  iconRegular: "rgb(184, 184, 184)",
+  iconHover: "white",
+  selectedRow: `rgba(255,255,255,0.14)`,
+  sidebarRowHover: `#313131`,
+  primary: "#1565C0",
 };
 
 //
@@ -70,15 +81,5 @@ const cardBeingPlayedBackground = primary;
 const iconRegular = "rgb(184, 184, 184)";
 const iconHover = "white";
 const textRegular = "white";
-
-//  const folderColor = "#a335ee";
-//  const playlistColor = "#1eaa00";
-//  const channelColor = "#0070dd";
-//  const videoColor = "#F40000";
-
-const folderColor = "#724BB7";
-const playlistColor = "#31B237";
-const channelColor = "#2186EB";
-const videoColor = "#DA4A91";
 
 export const danger = "#af4448";

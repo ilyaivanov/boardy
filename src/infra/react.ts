@@ -2,8 +2,9 @@ import React from "react";
 import { ClassName, ClassMap } from ".";
 import { convertNumericStylesToPixels, Styles } from "./style";
 
-type BaseProps<T> = React.DOMAttributes<T> & {
+export type BaseProps<T> = React.DOMAttributes<T> & {
   className?: ClassName;
+  classNames?: ClassName[];
   clsMap?: {};
   testId?: string;
   key?: string;
@@ -13,12 +14,17 @@ type BaseProps<T> = React.DOMAttributes<T> & {
 
 type Children = React.ReactNode | React.ReactNode[];
 
-const handleBaseProps = <T>(props: BaseProps<T>) => {
+export const handleBaseProps = <T>(props: BaseProps<T>) => {
   //@ts-expect-error
   props["data-testid"] = props.testId;
   delete props.testId;
-  props.className = cn(props.className, props.clsMap) as ClassName;
+  props.className = cn(
+    props.className,
+    props.classNames,
+    props.clsMap
+  ) as ClassName;
   delete props.clsMap;
+  delete props.classNames;
 
   if (props.style)
     props.style = convertNumericStylesToPixels(props.style) as Styles;
@@ -60,9 +66,10 @@ export const e = React.createElement;
 
 const cn = (
   cls: ClassName | undefined,
+  classNames: ClassName[] | undefined,
   clsMap: ClassMap | undefined
 ): string => {
-  let className = cls || "";
+  let className = (cls || "") + (classNames ? classNames.join(" ") : "");
   if (clsMap)
     className +=
       " " +

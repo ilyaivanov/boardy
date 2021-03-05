@@ -3,11 +3,12 @@ import { connect } from "react-redux";
 // import viewBoard from "./board/BoardView";
 import header from "./Header";
 import { cls, css, zIndexes, div, e } from "./infra";
+import LeftSidebar from "./sidebars/LeftSidebar";
 import { actions, State } from "./state";
 
 type Props = ReturnType<typeof mapState>;
 
-function App({ uiOptions }: Props) {
+function App({ uiOptions, items }: Props) {
   const ref = React.createRef<HTMLDivElement>();
   // if (!board) return null;
 
@@ -33,6 +34,7 @@ function App({ uiOptions }: Props) {
           isLeftSidebarVisible: !uiOptions.isLeftSidebarVisible,
         }),
     }),
+    div({}, items[uiOptions.selectedNode].title),
     // viewBoard({
     //   board,
     //   onScroll: (e) => syncBackgroundXPositionWithScroll(ref.current, e),
@@ -45,12 +47,7 @@ function App({ uiOptions }: Props) {
       className: cls.rightSidebar,
       clsMap: { [cls.rightSidebarHidden]: !uiOptions.isRightSidebarVisible },
     }),
-
-    div({
-      testId: "leftSidebar",
-      className: cls.leftSidebar,
-      clsMap: { [cls.leftSidebarHidden]: !uiOptions.isLeftSidebarVisible },
-    })
+    e(LeftSidebar)
   );
 }
 
@@ -69,6 +66,7 @@ const syncBackgroundXPositionWithScroll = (
 
 const mapState = (state: State) => ({
   // board: state.board,
+  items: state.items,
   uiOptions: state.uiOptions,
 });
 

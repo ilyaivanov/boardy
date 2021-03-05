@@ -18,13 +18,6 @@ describe("Default App", () => {
     render(e(Provider, { store }, viewApp()));
   });
 
-  xit("renders learn react link", () => {
-    const vid1 = screen.getByTestId("5ef71ceff544b15604af39e5");
-    expect(vid1).toHaveTextContent(
-      "Brooks & Dunn - Play Something Country (Official Video)"
-    );
-  });
-
   describe("should have two sidebars:", () => {
     it("left is open", () => {
       expect(screen.getByTestId("leftSidebar")).toHaveClass(

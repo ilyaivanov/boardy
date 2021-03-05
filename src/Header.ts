@@ -6,18 +6,26 @@ interface HeaderProps {
   isDark: boolean;
   onDarkChanged: (d: boolean) => void;
   toggleRightSidebar: () => void;
+  toggleLeftSidebar: () => void;
 }
 
-const Header = ({ isDark, onDarkChanged, toggleRightSidebar }: HeaderProps) =>
+const Header = (props: HeaderProps) =>
   div(
     {
       className: cls.header,
     },
     checkbox({
-      checked: isDark,
-      onChange: (e) => onDarkChanged(e.currentTarget.checked),
+      checked: props.isDark,
+      onChange: (e) => props.onDarkChanged(e.currentTarget.checked),
     }),
-    button({ onClick: toggleRightSidebar }, "toggle")
+    button(
+      { testId: "leftSidebarToggler", onClick: props.toggleLeftSidebar },
+      "left"
+    ),
+    button(
+      { testId: "rightSidebarToggler", onClick: props.toggleRightSidebar },
+      "right"
+    )
   );
 
 css.class(cls.header, {

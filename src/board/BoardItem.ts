@@ -1,14 +1,7 @@
 import React from "react";
-import {
-  cls,
-  viewCollapsibleContainer,
-  css,
-  s,
-  colors,
-  spacings,
-} from "../infra";
-import { div, fragment, img, span } from "../infra/react";
-import viewSubitem from "./Subitem";
+import { cls, css, s, colors, spacings } from "../infra";
+import { div, img, span } from "../infra/react";
+import { getImageSrc } from "../state";
 
 type Props = {
   item: Item;
@@ -34,38 +27,17 @@ const BoardItem = ({ item, onItemMouseDown }: Props) => {
         onClick: () => setIsOpen(!isOpen),
       },
       img({ src: getImageSrc(item) }),
-      span({ className: cls.cardText }, item.name),
-      item.type == "playlist" && span({ className: cls.itemType }, "playlist")
-    ),
-    item.type === "playlist" &&
-      viewCollapsibleContainer(
-        { className: cls.subitemsContainer, isOpen },
-        () =>
-          fragment(
-            viewLudovicoSubitem,
-            viewLudovicoSubitem,
-            viewLudovicoSubitem,
-            viewLudovicoSubitem,
-            viewLudovicoSubitem,
-            viewLudovicoSubitem,
-            viewLudovicoSubitem
-          )
-      )
+      span({ className: cls.cardText }, item.name)
+    )
   );
 };
 export default BoardItem;
-// (item: Item) =>
-// React.createElement(BoardItem, { item, key: item.id });
-
-const viewLudovicoSubitem = viewSubitem({
-  image: "https://i.ytimg.com/vi/0Bvm9yG4cvs/mqdefault.jpg",
-  title: "Ludovico Einaudi - Una mattina FULL ALBUM",
-});
 
 css.class(cls.itemCard, {
   position: "relative",
-  marginTop: spacings.columnGap,
-  backgroundColor: "#f8f9fa",
+  marginTop: spacings.distanceBetweenCards,
+  backgroundColor: "#ebecf0",
+  // backgroundColor: "#f8f9fa",
   borderRadius: 5,
   overflow: "hidden",
   transition: "all 100ms",
@@ -105,8 +77,11 @@ css.selector(`.${cls.boardDark} .${cls.itemCardHeader}:hover`, {
   backgroundColor: colors.dark.itemBackgroundHover,
 });
 
+//(320 / 180)
+const IMAGE_WIDTH = Math.round(spacings.cardHeight * 1.5);
+
 css.parentChildTag(cls.itemCardHeader, "img", {
-  width: Math.round(spacings.cardHeight * (320 / 180)),
+  width: IMAGE_WIDTH,
   height: spacings.cardHeight,
   objectFit: "cover",
   display: "block",
@@ -117,24 +92,3 @@ css.parentChild(cls.itemCardHeader, cls.cardText, {
   fontSize: 14,
   ...s.paddingHorizontal(6),
 });
-
-css.class(cls.itemType, {
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  width: Math.round(spacings.cardHeight * (320 / 180)),
-  fontSize: 11,
-  color: "white",
-  fontWeight: "bold",
-  backgroundColor: colors.itemTypeBackground,
-  textAlign: "center",
-});
-
-css.class(cls.subitemsContainer, {
-  overflow: "hidden",
-});
-
-export const getImageSrc = (item: Item): string => {
-  if (item.type === "playlist") return item.image;
-  else return `https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`;
-};

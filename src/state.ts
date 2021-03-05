@@ -1,48 +1,52 @@
 import { createStore, Store } from "redux";
-let store: Store;
-export const setGlobalStore = (s: Store) => (store = s);
+import board from "./defaultBoard";
+import defaultBoard from "./defaultBoard";
+let store: Store<State, Actions>;
+export const setGlobalStore = (s: Store<State, Actions>) => (store = s);
 
 export const actions = {
-  increment: () => {
-    store.dispatch({ type: "increment" });
-  },
-  decrement: () => {
-    store.dispatch({ type: "decrement" });
-  },
-
-  tripleIncrement: () => {
-    setTimeout(actions.increment, 2000);
-    setTimeout(actions.increment, 4000);
-    setTimeout(actions.increment, 6000);
+  toggle: (item: Item) => {
+    store.dispatch({ type: "toggle_playlist", id: item.id });
   },
 };
 
 export type State = {
-  counter: number;
+  board: Board | undefined;
 };
 
 const initialState: State = {
-  counter: 1,
+  board: defaultBoard,
 };
 
-type Increment = { type: "increment" };
-type Decrement = { type: "decrement" };
+type TogglePlaylist = { type: "toggle_playlist"; id: string };
 
-type Action = Increment | Decrement;
+type Actions = TogglePlaylist;
 
-const reducer = (state = initialState, action: Action): State => {
-  if (action.type == "decrement")
+const reducer = (state = initialState, action: Actions): State => {
+  if (action.type == "toggle_playlist") {
+    const mapColumn = (column: Column): Column => {
+      if (column.items.find((i) => i.id == action.id))
+        return {
+          ...column,
+        };
+      return column;
+    };
     return {
       ...state,
-      counter: state.counter - 1,
+      board: {
+        ...board,
+        // columns:
+      },
     };
-  if (action.type == "increment")
-    return {
-      ...state,
-      counter: state.counter + 1,
-    };
+  }
   return state;
 };
 
-export const createSlapstukStore = (initialState?: State) =>
-  createStore(reducer, initialState);
+export const createSlapstukStore = (
+  initialState?: State
+): Store<State, Actions> => createStore(reducer, initialState);
+
+export const getImageSrc = (item: Item): string => {
+  if (item.type === "playlist") return item.image;
+  else return `https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`;
+};

@@ -1,21 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
+import { viewApp } from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { e } from "./infra";
 import { Provider } from "react-redux";
 import { createSlapstukStore, setGlobalStore } from "./state";
-import defaultBoard from "./defaultBoard";
 
-const store = createSlapstukStore();
+const store: any = createSlapstukStore();
 setGlobalStore(store);
 ReactDOM.render(
-  e(
-    React.StrictMode,
-    null,
-    e(Provider, { store }, e(App, { board: defaultBoard }))
-  ),
+  e(React.StrictMode, null, e(Provider, { store }, viewApp())),
   document.getElementById("root")
 );
 

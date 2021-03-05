@@ -23,6 +23,20 @@ const board: Board = {
             "2017 Personality and Its Transformations (University of Toronto)",
           type: "playlist",
           playlistId: "foo",
+          children: [
+            {
+              id: "1",
+              name: "Ludovico Einaudi - Una mattina FULL ALBUM",
+              videoId: "0Bvm9yG4cvs",
+              type: "video",
+            },
+            {
+              id: "2",
+              name: "Ludovico Einaudi - Una mattina FULL ALBUM",
+              videoId: "0Bvm9yG4cvs",
+              type: "video",
+            },
+          ],
           image:
             "https://i.ytimg.com/vi/kYYJlNbV1OM/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAUvhIYV6zaDgsVoEI5AV0ciwvZ0Q",
         },

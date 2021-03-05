@@ -49,10 +49,12 @@ css.class(cls.board, {
   flexDirection: "row",
   justifyContent: "flex-start",
   height: `calc(100vh - ${spacings.headerHeight}px)`,
-  color: colors.light.text,
+  // color: colors.light.text,
+  color: "black",
   overflowX: "auto",
   paddingTop: spacings.columnGap,
   paddingBottom: spacings.distanceBetweenScrollAndColumnSeparator,
+  backgroundColor: "rgb(131, 140, 145)",
 });
 
 css.text(s.scrollbar(cls.board, { height: 6, color: colors.light.scrollbar }));
@@ -66,9 +68,9 @@ css.class(cls.column, {
   display: "flex",
   position: "relative",
   flexDirection: "column",
-  minWidth: 350,
-  width: 350,
-  borderRight: s.solidBorder(1, colors.light.border),
+  minWidth: 256,
+  width: 256,
+  // borderRight: s.solidBorder(1, colors.light.border),
   paddingLeft: spacings.columnGap,
   /* one piexel of space between scroll and border */
   paddingRight: spacings.distanceBetweenScrollAndColumnSeparator,

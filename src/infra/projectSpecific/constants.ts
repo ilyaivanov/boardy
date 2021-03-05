@@ -1,9 +1,10 @@
 export const typography = {};
 export const spacings = {
-  columnGap: 15,
+  columnGap: 10,
+  distanceBetweenCards: 10,
   headerHeight: 49,
   cardHeight: 40,
-  distanceBetweenScrollAndColumnSeparator: 1,
+  distanceBetweenScrollAndColumnSeparator: 5,
 };
 const whiteMenuColor = "#f8f9fa";
 const whiteMenuColorHover = "#eceef0";

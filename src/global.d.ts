@@ -24,6 +24,7 @@ interface YoutubePlaylist {
   image: string;
   playlistId: string;
   children?: YoutubeVideoItem[];
+  isOpen?: boolean;
 }
 
 type Point = {

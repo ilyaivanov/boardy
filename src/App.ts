@@ -1,15 +1,22 @@
 import React from "react";
+import { connect } from "react-redux";
 import BoardView from "./board/BoardView";
 import header from "./Header";
 import { cls, css, zIndexes, div, e } from "./infra";
+import { State } from "./state";
 
 interface Props {
-  board: Board;
+  board: Board | undefined;
 }
 function App({ board }: Props) {
   const [isDark, setIsDark] = React.useState(false);
-  const [isSidebarVisible, setIsSidebarVisible] = React.useState(true);
+  const [isRightSidebarVisible, setIsRightSidebarVisible] = React.useState(
+    false
+  );
+  const [isLeftSidebarVisible, setIsLeftSidebarVisible] = React.useState(true);
   const ref = React.createRef<HTMLDivElement>();
+  if (!board) return null;
+
   return div(
     {
       className: cls.page,
@@ -20,7 +27,9 @@ function App({ board }: Props) {
     header({
       isDark,
       onDarkChanged: (isNewDark) => setIsDark(isNewDark),
-      toggleRightSidebar: () => setIsSidebarVisible(!isSidebarVisible),
+      toggleRightSidebar: () =>
+        setIsRightSidebarVisible(!isRightSidebarVisible),
+      toggleLeftSidebar: () => setIsLeftSidebarVisible(!isLeftSidebarVisible),
     }),
     e(BoardView, {
       board,
@@ -30,8 +39,15 @@ function App({ board }: Props) {
       },
     }),
     div({
+      testId: "rightSidebar",
       className: cls.rightSidebar,
-      clsMap: { [cls.rightSidebarHidden]: !isSidebarVisible },
+      clsMap: { [cls.rightSidebarHidden]: !isRightSidebarVisible },
+    }),
+
+    div({
+      testId: "leftSidebar",
+      className: cls.leftSidebar,
+      clsMap: { [cls.leftSidebarHidden]: !isLeftSidebarVisible },
     })
   );
 }
@@ -49,9 +65,10 @@ const syncBackgroundXPositionWithScroll = (
     board.style.backgroundPositionX = newPercent + "%";
 };
 
-export const viewApp = (board: Board) => e(App, { board });
-
-export default App;
+const mapState = (state: State) => ({
+  board: state.board,
+});
+export const viewApp = () => e(connect(mapState)(App));
 
 css.class(cls.page, {
   width: "100vw",
@@ -60,10 +77,10 @@ css.class(cls.page, {
   overflow: "hidden",
   gridTemplateRows: "auto 1fr",
   // gridTemplateRows: "auto 1fr auto",
-  gridTemplateColumns: "1fr auto",
+  gridTemplateColumns: "auto 1fr auto",
   gridTemplateAreas: `
-    "header header"
-    "board rightSidebar"
+    "header header header"
+    "leftSidebar board rightSidebar"
   `,
 
   // background:
@@ -72,10 +89,10 @@ css.class(cls.page, {
   // backgroundPositionY: "center",
 });
 
-const defaultSidebarWidth = 350;
+const defaultRightSidebarWidth = 350;
 css.class(cls.rightSidebar, {
   gridArea: "rightSidebar",
-  width: defaultSidebarWidth,
+  width: defaultRightSidebarWidth,
   boxShadow: "0px 5px 5px 0 rgb(0 0 0 / 53%)",
   backgroundColor: "white",
   zIndex: zIndexes.rightSidebar,
@@ -83,5 +100,19 @@ css.class(cls.rightSidebar, {
 });
 
 css.class(cls.rightSidebarHidden, {
-  marginRight: -defaultSidebarWidth,
+  marginRight: -defaultRightSidebarWidth,
+});
+
+const defaultLeftSidebarWidth = 350;
+css.class(cls.leftSidebar, {
+  gridArea: "leftSidebar",
+  width: defaultLeftSidebarWidth,
+  boxShadow: "0px 5px 5px 0 rgb(0 0 0 / 53%)",
+  backgroundColor: "white",
+  zIndex: zIndexes.leftSidebar,
+  transition: "margin 200ms",
+});
+
+css.class(cls.leftSidebarHidden, {
+  marginLeft: -defaultLeftSidebarWidth,
 });

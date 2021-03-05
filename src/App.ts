@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-// import viewBoard from "./board/BoardView";
+import viewBoard from "./board/BoardView";
 import header from "./Header";
 import { cls, css, zIndexes, div, e } from "./infra";
 import LeftSidebar from "./sidebars/LeftSidebar";
@@ -34,14 +34,14 @@ function App({ uiOptions, items }: Props) {
           isLeftSidebarVisible: !uiOptions.isLeftSidebarVisible,
         }),
     }),
-    div({}, items[uiOptions.selectedNode].title),
-    // viewBoard({
-    //   board,
-    //   onScroll: (e) => syncBackgroundXPositionWithScroll(ref.current, e),
-    //   onItemMouseDown: (item, mousePos) => {
-    //     console.log(item, mousePos);
-    //   },
-    // }),
+    viewBoard({
+      items,
+      itemToShow: uiOptions.selectedNode,
+      onScroll: (e) => syncBackgroundXPositionWithScroll(ref.current, e),
+      onItemMouseDown: (item, mousePos) => {
+        console.log(item, mousePos);
+      },
+    }),
     div({
       testId: "rightSidebar",
       className: cls.rightSidebar,
@@ -70,7 +70,7 @@ const mapState = (state: State) => ({
   uiOptions: state.uiOptions,
 });
 
-export const viewApp = () => e(connect(mapState)(App));
+export default connect(mapState)(App);
 
 css.class(cls.page, {
   width: "100vw",

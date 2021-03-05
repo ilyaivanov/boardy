@@ -24,7 +24,7 @@ const LeftSidebar = ({ state, onResize }: LeftSidebarProps) => {
   return (
     <div
       className={cls.leftSidebar}
-      data-testId={"leftSidebar"}
+      data-testid={"leftSidebar"}
       style={{
         width: state.uiOptions.leftSidebarWidth,
         marginLeft: state.uiOptions.isLeftSidebarVisible
@@ -244,5 +244,4 @@ const mapState = (state: State) => ({
   state,
 });
 
-export default (outerProps: OuterProps) =>
-  e(connect(mapState)(LeftSidebar), outerProps);
+export default connect(mapState)(LeftSidebar);

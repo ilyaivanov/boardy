@@ -1,10 +1,10 @@
 export const typography = {};
 export const spacings = {
-  columnGap: 10,
+  columnGap: 19,
   distanceBetweenCards: 10,
   headerHeight: 49,
-  cardHeight: 40,
-  distanceBetweenScrollAndColumnSeparator: 5,
+  cardHeight: 50,
+  distanceBetweenScrollAndColumnSeparator: 1,
 };
 const whiteMenuColor = "#f8f9fa";
 const whiteMenuColorHover = "#eceef0";
@@ -28,6 +28,9 @@ export const colors = {
     itemBackgroundHover: darkMenuColor,
     scrollbar: "darkGray",
   },
+
+  body: "#F6F7FB",
+  itemBody: "white",
 
   folderColor: "#724BB7",
   playlistColor: "#31B237",

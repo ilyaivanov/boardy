@@ -6,7 +6,6 @@ export const cls = {
   itemsContainer: "items-container",
   itemCard: "item-card",
   cardText: "card-text",
-  itemCardHeader: "item-card-header",
   boardDark: "board-dark",
   addColumnButton: "add-column-button",
   boardRightEndSpacing: "board-right-end-spacing",

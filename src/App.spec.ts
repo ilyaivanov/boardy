@@ -27,12 +27,19 @@ describe("Default App", () => {
 
   describe("should have two sidebars:", () => {
     it("left is open", () => {
-      expect(screen.getByTestId("leftSidebar")).not.toHaveClass(
+      expect(screen.getByTestId("leftSidebar")).toHaveClass(
         cls.leftSidebarHidden
       );
     });
 
     it("when clicking toggleLeftSidebar button left sidebar should be closed", () => {
+      fireEvent.click(screen.getByTestId("leftSidebarToggler"));
+      expect(screen.getByTestId("leftSidebar")).not.toHaveClass(
+        cls.leftSidebarHidden
+      );
+    });
+    it("when clicking toggleLeftSidebar button two times left sidebar should be open", () => {
+      fireEvent.click(screen.getByTestId("leftSidebarToggler"));
       fireEvent.click(screen.getByTestId("leftSidebarToggler"));
       expect(screen.getByTestId("leftSidebar")).toHaveClass(
         cls.leftSidebarHidden

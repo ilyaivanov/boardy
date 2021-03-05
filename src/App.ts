@@ -3,33 +3,35 @@ import { connect } from "react-redux";
 import BoardView from "./board/BoardView";
 import header from "./Header";
 import { cls, css, zIndexes, div, e } from "./infra";
-import { State } from "./state";
+import { actions, State } from "./state";
 
-interface Props {
-  board: Board | undefined;
-}
-function App({ board }: Props) {
-  const [isDark, setIsDark] = React.useState(false);
-  const [isRightSidebarVisible, setIsRightSidebarVisible] = React.useState(
-    false
-  );
-  const [isLeftSidebarVisible, setIsLeftSidebarVisible] = React.useState(true);
+type Props = ReturnType<typeof mapState>;
+
+function App({ board, uiOptions }: Props) {
   const ref = React.createRef<HTMLDivElement>();
   if (!board) return null;
 
   return div(
     {
       className: cls.page,
-      clsMap: { "board-dark": isDark },
+      clsMap: { "board-dark": uiOptions.isDarkMode },
       ref,
       style: { backgroundPositionX: "0%" },
     },
     header({
-      isDark,
-      onDarkChanged: (isNewDark) => setIsDark(isNewDark),
+      isDark: uiOptions.isDarkMode,
+      onDarkChanged: (isDarkMode) =>
+        actions.assignUiOptions({
+          isDarkMode,
+        }),
       toggleRightSidebar: () =>
-        setIsRightSidebarVisible(!isRightSidebarVisible),
-      toggleLeftSidebar: () => setIsLeftSidebarVisible(!isLeftSidebarVisible),
+        actions.assignUiOptions({
+          isRightSidebarVisible: !uiOptions.isRightSidebarVisible,
+        }),
+      toggleLeftSidebar: () =>
+        actions.assignUiOptions({
+          isLeftSidebarVisible: !uiOptions.isLeftSidebarVisible,
+        }),
     }),
     e(BoardView, {
       board,
@@ -41,13 +43,13 @@ function App({ board }: Props) {
     div({
       testId: "rightSidebar",
       className: cls.rightSidebar,
-      clsMap: { [cls.rightSidebarHidden]: !isRightSidebarVisible },
+      clsMap: { [cls.rightSidebarHidden]: !uiOptions.isRightSidebarVisible },
     }),
 
     div({
       testId: "leftSidebar",
       className: cls.leftSidebar,
-      clsMap: { [cls.leftSidebarHidden]: !isLeftSidebarVisible },
+      clsMap: { [cls.leftSidebarHidden]: !uiOptions.isLeftSidebarVisible },
     })
   );
 }
@@ -67,7 +69,9 @@ const syncBackgroundXPositionWithScroll = (
 
 const mapState = (state: State) => ({
   board: state.board,
+  uiOptions: state.uiOptions,
 });
+
 export const viewApp = () => e(connect(mapState)(App));
 
 css.class(cls.page, {

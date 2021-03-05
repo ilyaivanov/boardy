@@ -5,37 +5,53 @@ let store: Store<State, Actions>;
 export const setGlobalStore = (s: Store<State, Actions>) => (store = s);
 
 export const actions = {
-  toggle: (item: Item) => {
-    store.dispatch({ type: "toggle_playlist", id: item.id });
+  assignUiOptions: (options: Partial<UIOptions>) => {
+    store.dispatch({ type: "assign-ui-options", options });
   },
 };
 
 export type State = {
   board: Board | undefined;
+  uiOptions: UIOptions;
+};
+
+export type UIOptions = {
+  // focusedNode: string;
+  // selectedNode: string;
+  // itemIdBeingPlayed?: string;
+  leftSidebarWidth: number;
+  isLeftSidebarVisible: boolean;
+  rightSidebarWidth: number;
+  isRightSidebarVisible: boolean;
+  isDarkMode: boolean;
+  // galleryMode: "list" | "gallery";
 };
 
 const initialState: State = {
   board: defaultBoard,
+  uiOptions: {
+    isDarkMode: false,
+    isLeftSidebarVisible: false,
+    isRightSidebarVisible: false,
+    leftSidebarWidth: 350,
+    rightSidebarWidth: 350,
+  },
 };
 
-type TogglePlaylist = { type: "toggle_playlist"; id: string };
+type AssignUiOptions = {
+  type: "assign-ui-options";
+  options: Partial<UIOptions>;
+};
 
-type Actions = TogglePlaylist;
+type Actions = AssignUiOptions;
 
 const reducer = (state = initialState, action: Actions): State => {
-  if (action.type == "toggle_playlist") {
-    const mapColumn = (column: Column): Column => {
-      if (column.items.find((i) => i.id == action.id))
-        return {
-          ...column,
-        };
-      return column;
-    };
+  if (action.type == "assign-ui-options") {
     return {
       ...state,
-      board: {
-        ...board,
-        // columns:
+      uiOptions: {
+        ...state.uiOptions,
+        ...action.options,
       },
     };
   }

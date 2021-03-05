@@ -6,9 +6,15 @@ import reportWebVitals from "./reportWebVitals";
 import { e } from "./infra";
 import { Provider } from "react-redux";
 import { createSlapstukStore, setGlobalStore } from "./state";
+import { initFirebase, loadUserSettings } from "./api/firebase";
 
 const store: any = createSlapstukStore();
 setGlobalStore(store);
+
+initFirebase(null);
+loadUserSettings("nLHkgavG6YXJWlP4YkzJ9t4zW692").then((data) => {
+  console.log(data);
+});
 ReactDOM.render(
   e(React.StrictMode, null, e(Provider, { store }, viewApp())),
   document.getElementById("root")

@@ -1,41 +1,74 @@
-interface Board {
-  name: string;
-  columns: Column[];
-}
-
-interface Column {
-  id: string;
-  name: string;
-  items: Item[];
-}
-
-type Item = YoutubeVideoItem | YoutubePlaylist;
-
-interface YoutubeVideoItem {
-  id: string;
-  type: "video";
-  name: string;
-  videoId: string;
-}
-interface YoutubePlaylist {
-  id: string;
-  type: "playlist";
-  name: string;
-  image: string;
-  playlistId: string;
-  children?: YoutubeVideoItem[];
-  isOpen?: boolean;
-}
+type valueof<T> = T[keyof T];
 
 type Point = {
   x: number;
   y: number;
 };
 
-type valueof<T> = T[keyof T];
+type Items = { [id: string]: Item };
 
-type ElementType<T extends ReadonlyArray<unknown>> = T extends ReadonlyArray<
-  infer ElementType
->
-  ? ElementType
-  : never;
+type Item = ItemContainer | YoutubeVideo;
+
+type ItemContainer =
+  | YoutubePlaylist
+  | YoutubeChannel
+  | Folder
+  | SearchContainer;
+
+type CommonItemProperties = {
+  id: string;
+  title: string;
+};
+
+type CommonContainerProperties = {
+  //these common properties consume Firebase storage
+  //consider maybe reducing their name length
+  children: string[];
+  isOpenFromSidebar?: boolean;
+  isCollapsedInGallery?: boolean;
+};
+
+type Folder = {
+  type: "folder";
+} & CommonItemProperties &
+  CommonContainerProperties;
+
+type SearchContainer = {
+  type: "search";
+  searchTerm: string;
+  isLoading?: boolean;
+  nextPageToken?: string;
+} & CommonItemProperties &
+  CommonContainerProperties;
+
+type YoutubePlaylist = {
+  type: "YTplaylist";
+  playlistId: string;
+  isLoading?: boolean;
+  nextPageToken?: string;
+  image: string;
+} & CommonItemProperties &
+  CommonContainerProperties;
+
+type YoutubeChannel = {
+  type: "YTchannel";
+  channelId: string;
+  isLoading?: boolean;
+  nextPageToken?: string;
+  image: string;
+} & CommonItemProperties &
+  CommonContainerProperties;
+
+type YoutubeVideo = {
+  type: "YTvideo";
+  videoId: string;
+} & CommonItemProperties;
+
+type PersistedState = {
+  selectedItemId: string;
+  focusedStack: string[];
+  itemsSerialized: string;
+  ui?: {
+    leftSidebarWidth: number;
+  };
+};

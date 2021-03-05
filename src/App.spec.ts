@@ -18,7 +18,7 @@ describe("Default App", () => {
     render(e(Provider, { store }, viewApp()));
   });
 
-  it("renders learn react link", () => {
+  xit("renders learn react link", () => {
     const vid1 = screen.getByTestId("5ef71ceff544b15604af39e5");
     expect(vid1).toHaveTextContent(
       "Brooks & Dunn - Play Something Country (Official Video)"

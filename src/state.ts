@@ -1,6 +1,6 @@
 import { createStore, Store } from "redux";
-import board from "./defaultBoard";
-import defaultBoard from "./defaultBoard";
+// import board from "./defaultBoard";
+// import defaultBoard from "./defaultBoard";
 let store: Store<State, Actions>;
 export const setGlobalStore = (s: Store<State, Actions>) => (store = s);
 
@@ -11,7 +11,7 @@ export const actions = {
 };
 
 export type State = {
-  board: Board | undefined;
+  // board: Board | undefined;
   uiOptions: UIOptions;
 };
 
@@ -28,7 +28,7 @@ export type UIOptions = {
 };
 
 const initialState: State = {
-  board: defaultBoard,
+  // board: defaultBoard,
   uiOptions: {
     isDarkMode: false,
     isLeftSidebarVisible: false,
@@ -62,7 +62,7 @@ export const createSlapstukStore = (
   initialState?: State
 ): Store<State, Actions> => createStore(reducer, initialState);
 
-export const getImageSrc = (item: Item): string => {
-  if (item.type === "playlist") return item.image;
-  else return `https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`;
-};
+// export const getImageSrc = (item: Item): string => {
+//   if (item.type === "playlist") return item.image;
+//   else return `https://i.ytimg.com/vi/${item.videoId}/mqdefault.jpg`;
+// };

@@ -1,15 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
-import BoardView from "./board/BoardView";
+// import viewBoard from "./board/BoardView";
 import header from "./Header";
 import { cls, css, zIndexes, div, e } from "./infra";
 import { actions, State } from "./state";
 
 type Props = ReturnType<typeof mapState>;
 
-function App({ board, uiOptions }: Props) {
+function App({ uiOptions }: Props) {
   const ref = React.createRef<HTMLDivElement>();
-  if (!board) return null;
+  // if (!board) return null;
 
   return div(
     {
@@ -33,13 +33,13 @@ function App({ board, uiOptions }: Props) {
           isLeftSidebarVisible: !uiOptions.isLeftSidebarVisible,
         }),
     }),
-    e(BoardView, {
-      board,
-      onScroll: (e) => syncBackgroundXPositionWithScroll(ref.current, e),
-      onItemMouseDown: (item, mousePos) => {
-        console.log(item, mousePos);
-      },
-    }),
+    // viewBoard({
+    //   board,
+    //   onScroll: (e) => syncBackgroundXPositionWithScroll(ref.current, e),
+    //   onItemMouseDown: (item, mousePos) => {
+    //     console.log(item, mousePos);
+    //   },
+    // }),
     div({
       testId: "rightSidebar",
       className: cls.rightSidebar,
@@ -68,7 +68,7 @@ const syncBackgroundXPositionWithScroll = (
 };
 
 const mapState = (state: State) => ({
-  board: state.board,
+  // board: state.board,
   uiOptions: state.uiOptions,
 });
 
